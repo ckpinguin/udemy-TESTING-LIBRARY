@@ -17,7 +17,6 @@ it("has the correct button text after click", () => {})
 
 test("button click flow", () => {
   render(<App />)
-
   // find an element with a role of button and text matching /blue/i
   const buttonElement = screen.getByRole("button", {
     name: /blue/i,
