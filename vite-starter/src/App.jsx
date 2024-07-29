@@ -1,9 +1,19 @@
+import "./App.css"
+import { useState } from "react"
+
 function App() {
+  const [buttonColor, setButtonColor] = useState("red")
+  const newButtonColor = buttonColor === "red" ? "blue" : "red"
+
   return (
     <div>
-      <h1>I'm gonna learn React Testing Library</h1>
+      <button
+        className={buttonColor}
+        onClick={() => setButtonColor(newButtonColor)}>
+        Change to {newButtonColor}
+      </button>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
