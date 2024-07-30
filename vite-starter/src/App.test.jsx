@@ -1,6 +1,7 @@
 import { render, screen, fireEvent } from "@testing-library/react"
 import App from "./App"
-import { test, expect, beforeEach } from "vitest"
+import { test, expect, it } from "vitest"
+import { kebabCaseToTitleCase } from "./helpers"
 
 // Prefer function setup() over beforeEach() for better maintainability and scoping
 // cf. https://kentcdodds.com/blog/avoid-nesting-when-youre-testing
@@ -11,10 +12,10 @@ function setup() {
 test("button click flow", () => {
   setup()
   const buttonEl = screen.getByRole("button", { name: /blue/i }) // implicit assertion
-  expect(buttonEl).toHaveClass("red")
+  expect(buttonEl).toHaveClass("medium-violet-red")
   //expect(buttonEl).toHaveTextContent(/blue/i) // already implicitly tested by the getByRole()
   fireEvent.click(buttonEl)
-  expect(buttonEl).toHaveClass("blue")
+  expect(buttonEl).toHaveClass("midnight-blue")
   expect(buttonEl).toHaveTextContent(/red/i)
 })
 
@@ -26,13 +27,13 @@ test("button click flow", () => {
   })
 
   // expect the class to be red
-  expect(buttonElement).toHaveClass("red")
+  expect(buttonElement).toHaveClass("medium-violet-red")
 
   // click button
   fireEvent.click(buttonElement)
 
   // expect the class to be blue
-  expect(buttonElement).toHaveClass("blue")
+  expect(buttonElement).toHaveClass("midnight-blue")
 
   // expect the button text to match /red/i
   expect(buttonElement).toHaveTextContent(/red/i)
@@ -62,13 +63,13 @@ test("checkbox flow", () => {
   // check conditions after second interaction
   expect(checkboxEl).not.toBeChecked()
   expect(buttonEl).toBeEnabled()
-  expect(buttonEl).toHaveClass("red")
+  expect(buttonEl).toHaveClass("medium-violet-red")
 
   // click button
   fireEvent.click(buttonEl)
 
   // expect the class to be blue
-  expect(buttonEl).toHaveClass("blue")
+  expect(buttonEl).toHaveClass("midnight-blue")
 
   // expect the button text to match /red/i
   expect(buttonEl).toHaveTextContent(/red/i)
@@ -79,4 +80,16 @@ test("checkbox flow", () => {
   expect(checkboxEl).toBeChecked()
   expect(buttonEl).toBeDisabled()
   expect(buttonEl).toHaveClass("gray")
+})
+
+describe("kebabCaseToTitleCase", () => {
+  it("works for no hyphens", () => {
+    expect(kebabCaseToTitleCase("red")).toBe("Red")
+  })
+  it("works for one hyphens", () => {
+    expect(kebabCaseToTitleCase("midnight-blue")).toBe("Midnight Blue")
+  })
+  it("works for multiple hyphens", () => {
+    expect(kebabCaseToTitleCase("medium-violet-red")).toBe("Medium Violet Red")
+  })
 })
