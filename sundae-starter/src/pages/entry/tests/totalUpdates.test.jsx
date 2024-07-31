@@ -1,6 +1,7 @@
-import { screen, render } from "@testing-library/react"
+import { render, screen } from "../../../test-utils/testing-library-utils"
 import { userEvent } from "@testing-library/user-event"
 import Options from "../Options"
+import { expect } from "vitest"
 
 test("update scoop subtotal when scoops change", async () => {
   const user = userEvent.setup()
@@ -14,9 +15,12 @@ test("update scoop subtotal when scoops change", async () => {
   const vanillaInput = await screen.findByRole("spinbutton", {
     name: "Vanilla",
   })
+  expect(vanillaInput).toBeInTheDocument()
+  expect(vanillaInput).toHaveValue("0")
 
   await user.clear(vanillaInput)
   await user.type(vanillaInput, "1")
+  expect(vanillaInput).toHaveValue("1")
   expect(scoopsSubtotal).toHaveTextContent("2.00")
 
   // update chocolate scoops to 2 and check subtotal
@@ -25,5 +29,6 @@ test("update scoop subtotal when scoops change", async () => {
   })
   await user.clear(chocolateInput)
   await user.type(chocolateInput, "2")
+  expect(chocolateInput).toHaveValue("2")
   expect(scoopsSubtotal).toHaveTextContent("6.00")
 })

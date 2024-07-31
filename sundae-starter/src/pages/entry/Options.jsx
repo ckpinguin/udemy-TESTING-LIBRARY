@@ -9,16 +9,15 @@ import { formatCurrency } from "../../utilities"
 import { useOrderDetails } from "../../contexts/OrderDetails"
 
 export default function Options({ optionType }) {
-  const { totals } = useOrderDetails()
-
   const [items, setItems] = useState([])
   const [error, setError] = useState(false)
+  const { totals } = useOrderDetails()
 
   useEffect(() => {
     axios
       .get(`http://localhost:3030/${optionType}`)
       .then((res) => setItems(res.data))
-      .catch((err) => {
+      .catch(() => {
         setError(true)
       })
   }, [optionType])

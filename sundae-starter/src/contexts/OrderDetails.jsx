@@ -4,6 +4,7 @@ import { pricePerItem } from "../constants"
 const OrderDetails = createContext()
 
 // create custom hook to check whether we're inside a provider
+// eslint-disable-next-line react-refresh/only-export-components
 export function useOrderDetails() {
   const contextValue = useContext(OrderDetails)
 
@@ -18,16 +19,22 @@ export function useOrderDetails() {
 
 export function OrderDetailsProvider(props) {
   const [optionCounts, setOptionCounts] = useState({
-    scoops: {}, // i.e. { vanilla: 2, chocolate: 1 }
-    toppings: {}, // i.e. { hotFudge: true, sprinkles: true }
+    scoops: {}, // i.e. { Vanilla: 2, Chocolate: 1 }
+    toppings: {}, // i.e. { "Gummi Bears": 1 }
   })
 
   function updateItemCount(itemName, newItemCount, optionType) {
-    const newOptionCounts = { ...optionCounts }
+    //const newOptionCounts = { ...optionCounts }
 
-    newOptionCounts[optionType][itemName] = newItemCount
+    // newOptionCounts[optionType][itemName] = newItemCount
 
-    setOptionCounts(newOptionCounts)
+    setOptionCounts((previousOptionCounts) => ({
+      ...previousOptionCounts,
+      [optionType]: {
+        ...previousOptionCounts[optionType],
+        [itemName]: newItemCount,
+      },
+    }))
   }
 
   function resetOrder() {

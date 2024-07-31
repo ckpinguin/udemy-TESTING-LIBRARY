@@ -5,7 +5,7 @@ export default function ScoopOption({ name, imagePath }) {
   const { updateItemCount } = useOrderDetails()
 
   const handleChange = (e) => {
-    updateItemCount(name, "scoop", parseInt(e.target.value) || 0)
+    updateItemCount(name, parseInt(e.target.value) || 0, "scoops")
   }
 
   return (
