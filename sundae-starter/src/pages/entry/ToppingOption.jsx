@@ -24,8 +24,8 @@ export default function ToppingOption({ name, imagePath }) {
         </Form.Label>
         <Col xs="5" style={{ textAlign: "left" }}>
           <Form.Control
-            type="number"
-            defaultValue={0}
+            type="checkbox"
+            defaultValue={false}
             onChange={handleChange}
           />
         </Col>
