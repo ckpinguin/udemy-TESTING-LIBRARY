@@ -20,7 +20,7 @@ export default function SummaryForm({ setOrderPhase }) {
   )
   const checkboxLabel = (
     <span>
-      I agree to{" "}
+      I agree to
       <OverlayTrigger placement="right" overlay={popover}>
         <span style={{ color: "blue" }}>Terms and Conditions</span>
       </OverlayTrigger>
