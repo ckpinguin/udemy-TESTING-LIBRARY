@@ -6,11 +6,11 @@ import { OrderDetailsProvider } from "./contexts/OrderDetails"
 
 function App() {
   return (
-    <Container>
-      <OrderDetailsProvider>
+    <OrderDetailsProvider>
+      <Container>
         <OrderEntry />
-      </OrderDetailsProvider>
-    </Container>
+      </Container>
+    </OrderDetailsProvider>
   )
 }
 

@@ -15,20 +15,8 @@ export default function ToppingOption({ name, imagePath }) {
         src={`http://localhost:3030/${imagePath}`}
         alt={`${name} topping`}
       />
-      <Form.Group
-        controlId={`${name}-count`}
-        as={Row}
-        style={{ marginTop: "10px" }}>
-        <Form.Label column xs="6" style={{ textAlign: "right" }}>
-          {name}
-        </Form.Label>
-        <Col xs="5" style={{ textAlign: "left" }}>
-          <Form.Control
-            type="checkbox"
-            defaultValue={false}
-            onChange={handleChange}
-          />
-        </Col>
+      <Form.Group controlId={`${name}-topping-checkbox`}>
+        <Form.Check type="checkbox" onChange={handleChange} label={name} />
       </Form.Group>
     </Col>
   )
