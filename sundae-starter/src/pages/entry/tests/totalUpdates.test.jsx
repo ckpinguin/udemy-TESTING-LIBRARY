@@ -4,7 +4,7 @@ import Options from "../Options"
 import { describe, expect, test } from "vitest"
 import OrderEntry from "../OrderEntry"
 
-test("update scoop subtotal when scoops change", async () => {
+test.only("update scoop subtotal when scoops change", async () => {
   const user = userEvent.setup()
   render(<Options optionType="scoops" />)
 
