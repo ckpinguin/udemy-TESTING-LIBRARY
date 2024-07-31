@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from "react"
+import { pricePerItem } from "../constants"
 
 const OrderDetails = createContext()
 
@@ -16,6 +17,38 @@ export function useOrderDetails() {
 }
 
 export function OrderDetailsProvider(props) {
-  const value = {}
+  const [optionCounts, setOptionCounts] = useState({
+    scoops: {}, // i.e. { vanilla: 2, chocolate: 1 }
+    toppings: {}, // i.e. { hotFudge: true, sprinkles: true }
+  })
+
+  function updateItemCount(itemName, newItemCount, optionType) {
+    const newOptionCounts = { ...optionCounts }
+
+    newOptionCounts[optionType][itemName] = newItemCount
+
+    setOptionCounts(newOptionCounts)
+  }
+
+  function resetOrder() {
+    setOptionCounts({
+      scoops: {},
+      toppings: {},
+    })
+  }
+
+  function calculateTotal(optionType) {
+    const countsArr = Object.values(optionCounts[optionType])
+    const totalCount = countsArr.reduce((acc, cur) => acc + cur, 0)
+
+    return totalCount * pricePerItem[optionType]
+  }
+
+  const totals = {
+    scoops: calculateTotal("scoops"),
+    toppings: calculateTotal("toppings"),
+  }
+
+  const value = { optionCounts, totals, updateItemCount, resetOrder }
   return <OrderDetails.Provider value={value} {...props} />
 }
