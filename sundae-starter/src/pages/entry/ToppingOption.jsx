@@ -5,7 +5,7 @@ export default function ToppingOption({ name, imagePath }) {
   const { updateItemCount } = useOrderDetails()
 
   const handleChange = (e) => {
-    updateItemCount(name, parseInt(e.target.value) || 0, "toppings")
+    updateItemCount(name, e.target.checked ? 1 : 0, "toppings")
   }
 
   return (
