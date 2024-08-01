@@ -7,9 +7,9 @@ import { OverlayTrigger } from "react-bootstrap"
 export default function SummaryForm({ setOrderPhase }) {
   const [agreedTerms, setAgreedTerms] = useState(false)
 
-  function handleSubmit(event) {
-    event.preventDefault()
-
+  function handleSubmit(e) {
+    e.preventDefault()
+    console.log("submitting and setting phase to completed")
     setOrderPhase("completed")
   }
 
@@ -22,7 +22,7 @@ export default function SummaryForm({ setOrderPhase }) {
     <span>
       I agree to
       <OverlayTrigger placement="right" overlay={popover}>
-        <span style={{ color: "blue" }}>Terms and Conditions</span>
+        <span style={{ color: "blue" }}> Terms and Conditions</span>
       </OverlayTrigger>
     </span>
   )
@@ -37,7 +37,7 @@ export default function SummaryForm({ setOrderPhase }) {
           label={checkboxLabel}
         />
       </Form.Group>
-      <Button variant="primary" type="submit" disabled={!agreedTerms}>
+      <Button variant="primary" onClick={handleSubmit} disabled={!agreedTerms}>
         Confirm Order
       </Button>
     </Form>

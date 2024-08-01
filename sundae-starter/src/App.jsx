@@ -1,18 +1,30 @@
-import SummaryForm from "./pages/summary/SummaryForm"
-import Options from "./pages/entry/Options"
-import Container from "react-bootstrap/Container"
-import OrderEntry from "./pages/entry/OrderEntry"
-import { OrderDetailsProvider } from "./contexts/OrderDetails"
 import { useState } from "react"
+import Container from "react-bootstrap/Container"
+import { OrderDetailsProvider } from "./contexts/OrderDetails"
+import OrderSummary from "./pages/summary/OrderSummary"
+import OrderEntry from "./pages/entry/OrderEntry"
+import OrderConfirmation from "./pages/confirmation/OrderConfirmation"
 
 function App() {
-  const [orderPhase, setOrderPhase] = useState()
+  const [orderPhase, setOrderPhase] = useState("inProgress")
+  // use states "inProgress", "review" and "completed"
 
+  let Component = OrderEntry
+  switch (orderPhase) {
+    case "inProgress":
+      Component = OrderEntry
+      break
+    case "review":
+      Component = OrderSummary
+      break
+    case "completed":
+      Component = OrderConfirmation
+      break
+    default:
+  }
   return (
     <OrderDetailsProvider>
-      <Container>
-        <OrderEntry />
-      </Container>
+      <Container>{<Component setOrderPhase={setOrderPhase} />}</Container>
     </OrderDetailsProvider>
   )
 }
