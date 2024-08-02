@@ -76,3 +76,27 @@ test("order phases for happy path", async () => {
   })
   expect(toppingsSubtotal).toHaveTextContent("0.00")
 })
+
+test("no toppings showed on summary page when no toppings are selected", async () => {
+  const user = userEvent.setup()
+  render(<App />)
+
+  // add ice cream scoops and toppings
+  const chocolateInput = await screen.findByRole("spinbutton", {
+    name: "Chocolate",
+  })
+  await user.clear(chocolateInput)
+  await user.type(chocolateInput, "2")
+
+  // No toppings!
+  // find and click order button
+  const orderBtn = screen.getByRole("button", { name: /order now/i })
+  await user.click(orderBtn)
+
+  // check summary information based on order
+  const scoopsHeading = screen.getByRole("heading", { name: "Scoops: $4.00" }) // implicit assertion
+  expect(scoopsHeading).toBeInTheDocument()
+
+  const toppingsHeading = screen.queryByRole("heading", { name: /Toppings:/i })
+  expect(toppingsHeading).not.toBeInTheDocument()
+})
