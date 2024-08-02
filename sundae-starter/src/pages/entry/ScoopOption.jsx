@@ -17,7 +17,8 @@ export default function ScoopOption({ name, imagePath }) {
 
     setIsValid(valueIsValid)
 
-    updateItemCount(name, parseInt(e.target.value) || 0, "scoops")
+    const newValue = valueIsValid ? parseInt(currentValue) : 0
+    updateItemCount(name, newValue, "scoops")
   }
 
   return (
@@ -36,7 +37,7 @@ export default function ScoopOption({ name, imagePath }) {
         </Form.Label>
         <Col xs="5" style={{ textAlign: "left" }}>
           <Form.Control
-            className={isValid ? "" : "is-invalid"}
+            isInvalid={!isValid}
             type="number"
             defaultValue={0}
             onChange={handleChange}

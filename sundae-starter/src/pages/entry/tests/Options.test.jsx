@@ -3,6 +3,7 @@ import { render, screen } from "../../../test-utils/testing-library-utils"
 import { test, expect } from "vitest"
 
 import Options from "../Options"
+import userEvent from "@testing-library/user-event"
 
 test("displays image for each scoop option from server", async () => {
   render(<Options optionType="scoops" />)
@@ -29,4 +30,32 @@ test("displays image for each topping option from server", async () => {
     "M&Ms topping",
     "Hot fudge topping",
   ])
+})
+
+test("scoop subtotal does not update when scoop input is invalid", async () => {
+  const user = userEvent.setup()
+  render(<Options optionType="scoops" />)
+
+  const chocolateInput = await screen.findByRole("spinbutton", {
+    name: "Chocolate",
+  })
+
+  const scoopSubtotal = screen.getByText("Scoops total: $0.00")
+
+  await user.clear(chocolateInput)
+  await user.type(chocolateInput, "2.5")
+  expect(scoopSubtotal).toHaveTextContent("$0.00")
+
+  await user.clear(chocolateInput)
+  await user.type(chocolateInput, "-1")
+  expect(scoopSubtotal).toHaveTextContent("$0.00")
+
+  await user.clear(chocolateInput)
+  await user.type(chocolateInput, "100")
+  expect(scoopSubtotal).toHaveTextContent("$0.00")
+
+  // Test a valid input too just to be sure
+  await user.clear(chocolateInput)
+  await user.type(chocolateInput, "3")
+  expect(scoopSubtotal).toHaveTextContent("$6.00")
 })
