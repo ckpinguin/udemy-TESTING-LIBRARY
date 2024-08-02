@@ -1,5 +1,6 @@
 import { Button } from "react-bootstrap"
 import { useOrderDetails } from "../../contexts/OrderDetails"
+import AlertBanner from "../common/AlertBanner"
 import { useEffect, useState } from "react"
 import axios from "axios"
 
@@ -22,6 +23,10 @@ export default function OrderConfirmation({ setOrderPhase }) {
       })
       .catch(() => setError(true))
   }, [setOrderPhase])
+
+  if (error) {
+    return <AlertBanner />
+  }
 
   if (orderNum) {
     return (
