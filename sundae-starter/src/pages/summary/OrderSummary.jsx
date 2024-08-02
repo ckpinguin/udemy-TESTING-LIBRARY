@@ -11,20 +11,30 @@ export default function OrderSummary({ setOrderPhase }) {
       {value} {key}
     </li>
   ))
-  const toppingArr = Object.entries(optionCounts.toppings)
-  const toppingList = toppingArr.map((topping) => (
-    <li key={topping}>{topping[0]}</li>
-  ))
+
+  const hasToppings = totals.toppings > 0
+  let toppingsDisplay = null
+
+  if (hasToppings) {
+    const toppingArr = Object.entries(optionCounts.toppings)
+    const toppingList = toppingArr.map((topping) => (
+      <li key={topping}>{topping[0]}</li>
+    ))
+
+    toppingsDisplay = (
+      <>
+        <h2>Toppings: {formatCurrency(totals.toppings)}</h2>
+        <ul>{toppingList}</ul>
+      </>
+    )
+  }
 
   return (
     <div>
       <h1>Order Summary</h1>
       <h2>Scoops: {formatCurrency(totals.scoops)}</h2>
       <ul>{scoopList}</ul>
-      {totals.toppings === 0 ? null : (
-        <h2>Toppings: {formatCurrency(totals.toppings)}</h2>
-      )}
-      <ul>{toppingList}</ul>
+      {toppingsDisplay}
       <SummaryForm setOrderPhase={setOrderPhase} />
     </div>
   )
