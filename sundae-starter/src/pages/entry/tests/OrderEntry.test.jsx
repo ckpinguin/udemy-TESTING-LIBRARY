@@ -3,7 +3,8 @@ import { server } from "../../../mocks/server"
 import { http, HttpResponse } from "msw"
 
 import OrderEntry from "../OrderEntry"
-import { it, expect } from "vitest"
+import { vi, it, expect } from "vitest"
+import userEvent from "@testing-library/user-event"
 
 it("handles error for scoops and toppings routes", async () => {
   server.resetHandlers(
@@ -25,4 +26,24 @@ it("handles error for scoops and toppings routes", async () => {
   ) */
   // logRoles(container)
   expect(alerts).toHaveLength(2)
+})
+
+it("disables order button if no scoops selected", async () => {
+  const user = userEvent.setup()
+  render(<OrderEntry setOrderPhase={vi.fn} />)
+
+  // find order button
+  const orderBtn = screen.getByRole("button", { name: /order now/i })
+  expect(orderBtn).toBeDisabled()
+
+  // add ice cream scoops
+  const chocolateInput = await screen.findByRole("spinbutton", {
+    name: "Chocolate",
+  })
+  await user.clear(chocolateInput)
+  await user.type(chocolateInput, "2")
+  expect(orderBtn).toBeEnabled()
+
+  await user.clear(chocolateInput)
+  expect(orderBtn).toBeDisabled()
 })
